@@ -1,4 +1,4 @@
-#include "add.hpp"
+#include "operator.hpp"
 
 
 Operator::Operator() {
@@ -16,25 +16,11 @@ void Operator::set_id(std::string new_id) {
 }
 
 
-inputs_pair Operator::get_inputs() {
+std::pair<input, input> Operator::get_inputs() {
 	return this->inputs;
 }
 
 
-Add::Add() {
-	
-}
-
-
-double Add::forward() {
-	inputs_pair inputs = this->get_inputs();
-	return std::get<double>(inputs.first) + std::get<double>(inputs.second);
-};
-
-
-inputs_pair Add::backward(double d_out) {
-	return {d_out, d_out};
-}
 
 
 

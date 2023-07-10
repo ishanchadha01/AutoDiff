@@ -2,9 +2,9 @@
 
 #include "operator.hpp"
 
-class Add : Operator {
+class Mult : Operator {
 	public:
-		Add();
+		Mult();
 		double forward();
 		std::pair<input, input> backward(double d_out);
 };

@@ -1,10 +1,11 @@
 #include <numeric>
+#include <cmath>
 
 #include "operator.hpp"
 
-class Add : Operator {
+class Pow : Operator {
 	public:
-		Add();
+		Pow();
 		double forward();
 		std::pair<input, input> backward(double d_out);
 };

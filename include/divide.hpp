@@ -2,9 +2,9 @@
 
 #include "operator.hpp"
 
-class Add : Operator {
+class Divide : Operator {
 	public:
-		Add();
+		Divide();
 		double forward();
 		std::pair<input, input> backward(double d_out);
 };
