@@ -6,7 +6,7 @@ Add::Add() {
 }
 
 
-double Add::forward() {
+input Add::forward() {
 	std::pair<input, input> inputs = this->get_inputs();
 	return std::get<double>(inputs.first) + std::get<double>(inputs.second);
 };

@@ -6,7 +6,7 @@ Divide::Divide() {
 };
 
 
-double Divide::forward() {
+input Divide::forward() {
 	std::pair<input, input> inputs = this->get_inputs();
 	return std::get<double>(inputs.first) / std::get<double>(inputs.second);
 };

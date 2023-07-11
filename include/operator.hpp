@@ -18,7 +18,7 @@ class Operator {
 		std::pair<input, input> get_inputs();
 		// void set_inputs(std::vector<double> new_inputs);
 
-		double virtual forward() = 0;
+		input virtual forward() = 0;
 		std::pair<input, input> virtual backward(double d_out) = 0;
 
 	private:

@@ -5,6 +5,6 @@
 class Mult : Operator {
 	public:
 		Mult();
-		double forward();
+		input forward();
 		std::pair<input, input> backward(double d_out);
 };

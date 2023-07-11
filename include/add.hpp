@@ -5,6 +5,6 @@
 class Add : Operator {
 	public:
 		Add();
-		double forward();
+		input forward();
 		std::pair<input, input> backward(double d_out);
 };

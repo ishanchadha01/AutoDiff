@@ -5,9 +5,29 @@ Mult::Mult() {
 	
 }
 
-double Mult::forward() {
+input Mult::forward() {
 	std::pair<input, input> inputs = this->get_inputs();
-	return std::get<double>(inputs.first) * std::get<double>(inputs.second);
+    input product;
+    std::visit(
+        overload{
+             [&product](double& a, double& b) {
+                product = a*b;
+            },
+            [&product](Eigen::MatrixXd& a, Eigen::MatrixXd& b) {
+                product = a*b;
+            },
+            [&product](Eigen::MatrixXd& a, double& b) {
+                product = 0.;
+                std::cout << "Error, Mult types don't match!" << std::endl;
+            },
+            [&product](double& a, Eigen::MatrixXd& b) {
+                product = 0.;
+                std::cout << "Error, Mult types don't match!" << std::endl;
+            }
+        },
+        inputs.first, inputs.second
+    );
+	return product;
 };
 
 

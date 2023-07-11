@@ -5,7 +5,7 @@ Pow::Pow() {
 	
 }
 
-double Pow::forward() {
+input Pow::forward() {
 	std::pair<input, input> inputs = this->get_inputs();
 	return std::pow(std::get<double>(inputs.first), std::get<double>(inputs.second));
 };
