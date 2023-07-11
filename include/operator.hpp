@@ -2,12 +2,13 @@
 #include <string>
 #include <vector>
 #include <variant>
-// #include <eigen3/Eigen/Dense>
-// #include <Eigen/Dense>
+#include <Eigen/Dense>
+#include <iostream>
 
 
-// using input = std::variant<double, Eigen::MatrixXd>;
-using input = std::variant<double>;
+using input = std::variant<double, Eigen::MatrixXd>;
+template<class... Ts> struct overload : Ts... { using Ts::operator()...; };
+template<class... Ts> overload(Ts...) -> overload<Ts...>;
 
 class Operator {
   public:

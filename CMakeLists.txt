@@ -8,9 +8,8 @@ set(SOURCE_DIR src)
 set(INCLUDE_DIRECTORIES include)
 
 file(GLOB autodiff_SRC */*.cpp)
-find_package( Eigen3 REQUIRED )
 
-include_directories(include Eigen3)
+include_directories(include "/usr/local/include/eigen3")
 add_executable(AutoDiff ${autodiff_SRC} ${INCLUDE_DIRECTORIES})
 
 target_link_libraries(AutoDiff)
