@@ -40,8 +40,4 @@ std::pair<input, input> Mult::backward(double d_out) {
         inputs.first, inputs.second
     );
     return outputs;
-
-	// double a = std::get<double>(inputs.first);
-	// double b = std::get<double>(inputs.second);
-	// return {d_out * b, d_out * a};
 }
