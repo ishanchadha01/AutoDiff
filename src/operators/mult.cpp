@@ -5,9 +5,9 @@ Mult::Mult() {
 	
 }
 
-input Mult::forward() {
-	std::pair<input, input> inputs = this->get_inputs();
-    input product;
+data_type Mult::forward() {
+	std::pair<data_type, data_type> inputs = this->inputs;
+    data_type product;
     std::visit(
         overload{
              [&product](double& a, double& b) {
@@ -31,11 +31,11 @@ input Mult::forward() {
 };
 
 
-std::pair<input, input> Mult::backward(double d_out) {
+std::pair<data_type, data_type> Mult::backward(double d_out) {
 
     // Check type of variant
-    std::pair<input, input> outputs;
-    std::pair<input, input> inputs = this->get_inputs();
+    std::pair<data_type, data_type> outputs;
+    std::pair<data_type, data_type> inputs = this->inputs;
     std::visit(
         overload{
              [d_out, &outputs](double& a, double& b) {
@@ -43,8 +43,8 @@ std::pair<input, input> Mult::backward(double d_out) {
                 outputs.second = d_out * a;
             },
             [d_out, &outputs](Eigen::MatrixXd& a, Eigen::MatrixXd& b) {
-                outputs.first = d_out * b;
-                outputs.second = d_out * a;
+                outputs.first = d_out * b.transpose();
+                outputs.second = a.transpose() * d_out;
             },
             [d_out, &outputs](Eigen::MatrixXd& a, double& b) {
                 outputs.first = 0.;

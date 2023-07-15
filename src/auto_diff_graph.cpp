@@ -10,26 +10,21 @@ AutoDiffGraph::AutoDiffGraph() {
 
 }
 
-std::unordered_map<std::string, AutoDiffNode> AutoDiffGraph::get_nodes() {
-	return this->nodes;
-}
+void AutoDiffGraph::add_variable()
 
-void AutoDiffGraph::set_nodes(std::unordered_map<std::string, AutoDiffNode> new_nodes) {
-	this->nodes = new_nodes;
-}
+// Variable AutoDiffGraph::add_operation(Operator& oper, Variable& var1, Variable& var2) {
+//     oper.id += std::to_string(oper.type) + std::to_string(this->operator_count);
+//     this->operators[oper.id] = &oper;
+//     oper.inputs = {var1.val, var2.val};
+//     this->operator_count++;
 
-std::unordered_map< std::string, std::shared_ptr<Operator> > AutoDiffGraph::get_operators() {
-	return this->operators;
-}
+//     // TODO: this needs to be a placeholder instead of a new variable
+//     Variable output;
+//     output.val = operator.forward_pass(var1, var2);
+//     return output;
+// }
 
-void AutoDiffGraph::set_operators(std::unordered_map< std::string, std::shared_ptr<Operator> > new_operators) {
-	this->operators = new_operators;
-}
-
-std::string AutoDiffNode::get_id() {
-	return this->id;
-}
-
-void AutoDiffNode::set_id(std::string new_id) {
-	this->id = new_id;
+void AutoDiffGraph::create_expression() {
+    // parse expression
+    // create graph
 }
