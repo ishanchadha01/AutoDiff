@@ -6,6 +6,9 @@ Operator::Operator() {
 }
 
 
+NodeType Operator::get_type() {
+    return OPERATOR;
+}
 
 
 

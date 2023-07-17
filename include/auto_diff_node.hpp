@@ -21,11 +21,14 @@ class AutoDiffNode {
     public:
 		AutoDiffNode();
 
-        AutoDiffNode operator+(AutoDiffNode& addend);
-        AutoDiffNode operator*(AutoDiffNode& multiplier);
-        AutoDiffNode operator/(AutoDiffNode& divisor);
-        AutoDiffNode power(AutoDiffNode& exponent);
+        AutoDiffNode* operator+(AutoDiffNode* addend);
+        AutoDiffNode* operator*(AutoDiffNode* multiplier);
+        AutoDiffNode* operator/(AutoDiffNode* divisor);
+        AutoDiffNode* power(AutoDiffNode* exponent);
+        NodeType virtual get_type() = 0;
+
         NodeType type;
         data_type val;
-        std::vector<AutoDiffNode> inputs; // children of this node in the computation tree
+        std::string id;
+        std::vector<AutoDiffNode*> inputs; // children of this node in the computation tree
 };

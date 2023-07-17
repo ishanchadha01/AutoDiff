@@ -7,7 +7,7 @@ class Variable : public AutoDiffNode {
   public:
 		Variable();
         Variable(data_type aVal);
+        NodeType get_type();
 
-		std::string id;
         data_type val;
 };
