@@ -1,19 +1,33 @@
 #include "pow.hpp"
 
 
-Pow::Pow() {
-	
+Pow::Pow(AutoDiffNode node1, AutoDiffNode node2) {
+	this->inputs = {node1, node2};
 }
 
 data_type Pow::forward() {
-	std::pair<data_type, data_type> inputs = this->inputs;
-	return std::pow(std::get<double>(inputs.first), std::get<double>(inputs.second));
+    data_type input1 = this->inputs[0].val;
+    data_type input2 = this->inputs[1].val;
+    try {
+        double a = std::get<double>(input1);
+        double b = std::get<double>(input2);
+	    return std::pow(a, b);
+    } catch (std::exception& e) {
+        std::cout << "Power only supports double right now" << std::endl;
+    }
+    return 0.;
 };
 
 
 std::pair<data_type, data_type> Pow::backward(double d_out) {
-	std::pair<data_type, data_type> inputs = this->inputs;
-	double a = std::get<double>(inputs.first);
-	double b = std::get<double>(inputs.second);
-	return {d_out * b * std::pow(a, b-1), d_out * std::pow(a, b) * std::log(a)};
+    data_type input1 = this->inputs[0].val;
+    data_type input2 = this->inputs[1].val;
+    try {
+        double a = std::get<double>(input1);
+        double b = std::get<double>(input2);
+	    return {d_out * b * std::pow(a, b-1), d_out * std::pow(a, b) * std::log(a)};
+    } catch (std::exception& e) {
+        std::cout << "Power only supports double right now" << std::endl;
+    }
+    return {0., 0.};
 }

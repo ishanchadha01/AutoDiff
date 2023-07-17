@@ -1,12 +1,13 @@
 #include "mult.hpp"
 
 
-Mult::Mult() {
-	
+Mult::Mult(AutoDiffNode node1, AutoDiffNode node2) {
+	this->inputs = {node1, node2};
 }
 
 data_type Mult::forward() {
-	std::pair<data_type, data_type> inputs = this->inputs;
+    data_type input1 = this->inputs[0].val;
+    data_type input2 = this->inputs[1].val;
     data_type product;
     std::visit(
         overload{
@@ -25,7 +26,7 @@ data_type Mult::forward() {
                 std::cout << "Error, Mult types don't match!" << std::endl;
             }
         },
-        inputs.first, inputs.second
+        input1, input2
     );
 	return product;
 };
@@ -35,7 +36,8 @@ std::pair<data_type, data_type> Mult::backward(double d_out) {
 
     // Check type of variant
     std::pair<data_type, data_type> outputs;
-    std::pair<data_type, data_type> inputs = this->inputs;
+    data_type input1 = this->inputs[0].val;
+    data_type input2 = this->inputs[1].val;
     std::visit(
         overload{
              [d_out, &outputs](double& a, double& b) {
@@ -57,7 +59,7 @@ std::pair<data_type, data_type> Mult::backward(double d_out) {
                 std::cout << "Error, Mult types don't match!" << std::endl;
             }
         },
-        inputs.first, inputs.second
+        input1, input2
     );
     return outputs;
 }

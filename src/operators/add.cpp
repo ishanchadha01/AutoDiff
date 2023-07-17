@@ -1,14 +1,15 @@
 #include "add.hpp"
 
 
-Add::Add() {
-	
+Add::Add(AutoDiffNode node1, AutoDiffNode node2) {
+	this->inputs = {node1, node2};
 }
 
 
 data_type Add::forward() {
-	std::pair<data_type, data_type> inputs = this->inputs;
-	return std::get<double>(inputs.first) + std::get<double>(inputs.second);
+    data_type input1 = this->inputs[0].val;
+    data_type input2 = this->inputs[1].val;
+	return std::get<double>(input1) + std::get<double>(input2);
 };
 
 

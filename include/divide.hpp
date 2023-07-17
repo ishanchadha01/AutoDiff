@@ -1,10 +1,11 @@
-#include <numeric>
+#pragma once
 
+#include <numeric>
 #include "operator.hpp"
 
-class Divide : Operator {
+class Divide : public Operator {
 	public:
-		Divide();
+		Divide(AutoDiffNode node1, AutoDiffNode node2);
 		data_type forward();
 		std::pair<data_type, data_type> backward(double d_out);
 };
