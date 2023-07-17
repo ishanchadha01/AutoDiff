@@ -13,10 +13,10 @@ AutoDiffGraph::AutoDiffGraph(Variable& aHead) {
 
 
 void AutoDiffGraph::_dfs(AutoDiffNode* node) {
-    if (dynamic_cast<Variable*>(node) == nullptr) {
+    if (dynamic_cast<Variable*>(node) != nullptr) {
         node->id = "variables/" + std::to_string(variable_count);
         this->variable_count++;
-    } else {
+    } else if (dynamic_cast<Operator*>(node) != nullptr) {
         node->id = "operators/" + std::to_string(operator_count);
         this->operator_count++;
     }

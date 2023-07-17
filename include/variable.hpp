@@ -9,14 +9,20 @@ class Variable : public AutoDiffNode {
         Variable(data_type aVal);
 
         NodeType get_type();
-        Variable operator+(Variable addend) {
-            AutoDiffNode* addend_ptr = &addend;
+        Variable operator+(const Variable& addend) {
+            Variable* v = new Variable;
+            v->inputs = addend.inputs;
+            v->id = addend.id;
+            AutoDiffNode* addend_ptr = v;
             AutoDiffNode* node = AutoDiffNode::operator+(addend_ptr);
             Variable* sum_ptr = dynamic_cast<Variable*>(node);
             return *sum_ptr;
         };
-        Variable operator*(Variable multiplier) {
-            AutoDiffNode* mult_ptr = &multiplier;
+        Variable operator*(const Variable& multiplier) {
+            Variable* v = new Variable();
+            v->inputs = multiplier.inputs;
+            v->id = multiplier.id;
+            AutoDiffNode* mult_ptr = v;
             AutoDiffNode* node = AutoDiffNode::operator*(mult_ptr);
             Variable* product_ptr = dynamic_cast<Variable*>(node);
             return *product_ptr;

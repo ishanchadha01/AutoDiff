@@ -2,7 +2,7 @@
 
 
 Variable::Variable() {
-
+    this->val = 0.;
 };
 
 
