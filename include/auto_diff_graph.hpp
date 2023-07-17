@@ -11,9 +11,10 @@
 
 class AutoDiffGraph {
   public:
-		AutoDiffGraph(AutoDiffNode* head);
+		AutoDiffGraph(Variable& head);
 
 		std::unordered_map< std::string, AutoDiffNode* > nodes;
+        std::vector<std::string> top_sort;
 		// std::unordered_map< std::string, Operator* > operators;
 		int variable_count = 0;
 		int operator_count = 0;

@@ -2,11 +2,12 @@
 #include <iostream>
 
 
-AutoDiffGraph::AutoDiffGraph(AutoDiffNode* aHead) {
-    this->head = aHead;
+AutoDiffGraph::AutoDiffGraph(Variable& aHead) {
+    this->head = &aHead;
 
     // Add nodes to list using DFS for topological sort
-    _dfs(aHead);
+    AutoDiffNode* head_ptr = &aHead;
+    _dfs(head_ptr);
 };
 
 
@@ -20,6 +21,7 @@ void AutoDiffGraph::_dfs(AutoDiffNode* node) {
         this->operator_count++;
     }
     this->nodes[node->id] = node;
+    this->top_sort.push_back(node->id);
     for (AutoDiffNode* input : node->inputs)
         _dfs(input);
 };

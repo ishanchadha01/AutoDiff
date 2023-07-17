@@ -21,10 +21,10 @@ class AutoDiffNode {
     public:
 		AutoDiffNode();
 
-        AutoDiffNode* operator+(AutoDiffNode* addend);
-        AutoDiffNode* operator*(AutoDiffNode* multiplier);
-        AutoDiffNode* operator/(AutoDiffNode* divisor);
-        AutoDiffNode* power(AutoDiffNode* exponent);
+        virtual AutoDiffNode* operator+(AutoDiffNode* addend);
+        virtual AutoDiffNode* operator*(AutoDiffNode* multiplier);
+        virtual AutoDiffNode* operator/(AutoDiffNode* divisor);
+        virtual AutoDiffNode* power(AutoDiffNode* exponent);
         NodeType virtual get_type() = 0;
 
         NodeType type;

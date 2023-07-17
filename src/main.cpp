@@ -4,10 +4,13 @@
 
 int main() {
 	// auto graph = AutoDiffGraph();
-    AutoDiffNode* x = new Variable(0.5);
-    AutoDiffNode* y = new Variable(1.5);
-    AutoDiffNode* z = *x + y;
-    AutoDiffGraph g = AutoDiffGraph(z);
-	std::cout << "Ran main" << std::endl;
+    Variable x = Variable(0.5);
+    Variable y = Variable(1.5);
+    Variable z = Variable(0.9);
+    Variable out = z*(x+y);
+    AutoDiffGraph g = AutoDiffGraph(out);
+    for (auto& node_id : g.top_sort) {
+        std::cout << node_id << std::endl;
+    }
 	return 0;
 }
