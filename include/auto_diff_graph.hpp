@@ -12,6 +12,7 @@
 class AutoDiffGraph {
   public:
 		AutoDiffGraph(Variable& head);
+        void forward_pass();
 
 		std::unordered_map< std::string, AutoDiffNode* > nodes;
         std::vector<std::string> top_sort;

@@ -31,4 +31,5 @@ class AutoDiffNode {
         data_type val;
         std::string id;
         std::vector<AutoDiffNode*> inputs; // children of this node in the computation tree
+        bool is_placeholder;
 };

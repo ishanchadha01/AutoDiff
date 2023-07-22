@@ -8,8 +8,8 @@ class Operator : public AutoDiffNode {
   public:
 		Operator();
 
-		data_type virtual forward() = 0;
-		std::pair<data_type, data_type> virtual backward(double d_out) = 0;
+		virtual data_type forward() = 0;
+		virtual std::pair<data_type, data_type> backward(double d_out) = 0;
         NodeType get_type();
 
         // OperatorType type = ADD;

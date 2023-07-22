@@ -12,5 +12,9 @@ int main() {
     for (auto& node_id : g.top_sort) {
         std::cout << node_id << std::endl;
     }
+    g.forward_pass();
+    for (auto& node_id : g.top_sort) {
+        std::cout << node_id << " " << std::get<double>(g.nodes[node_id]->val) << std::endl;
+    }
 	return 0;
 }

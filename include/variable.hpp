@@ -10,9 +10,10 @@ class Variable : public AutoDiffNode {
 
         NodeType get_type();
         Variable operator+(const Variable& addend) {
-            Variable* v = new Variable;
+            Variable* v = new Variable();
             v->inputs = addend.inputs;
             v->id = addend.id;
+            v->val = addend.val;
             AutoDiffNode* addend_ptr = v;
             AutoDiffNode* node = AutoDiffNode::operator+(addend_ptr);
             Variable* sum_ptr = dynamic_cast<Variable*>(node);
@@ -22,6 +23,7 @@ class Variable : public AutoDiffNode {
             Variable* v = new Variable();
             v->inputs = multiplier.inputs;
             v->id = multiplier.id;
+            v->val = multiplier.val;
             AutoDiffNode* mult_ptr = v;
             AutoDiffNode* node = AutoDiffNode::operator*(mult_ptr);
             Variable* product_ptr = dynamic_cast<Variable*>(node);
