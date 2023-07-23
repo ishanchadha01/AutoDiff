@@ -29,7 +29,6 @@ class Variable : public AutoDiffNode {
             AutoDiffNode* sum_placeholder = new Variable();
             sum_placeholder->inputs = {oper_node};
             sum_placeholder->is_placeholder = true;
-
             Variable* sum_ptr = dynamic_cast<Variable*>(sum_placeholder);
             return *sum_ptr;
         };
@@ -40,12 +39,14 @@ class Variable : public AutoDiffNode {
             mult_ptr1->inputs = this->inputs;
             mult_ptr1->id = this->id;
             mult_ptr1->val = this->val;
+            mult_ptr1->is_placeholder = this->is_placeholder;
 
             // Create AutoDiffNode* for multiplier 2
             AutoDiffNode* mult_ptr2 = new Variable();
             mult_ptr2->inputs = multiplier.inputs;
             mult_ptr2->id = multiplier.id;
             mult_ptr2->val = multiplier.val;
+            mult_ptr2->is_placeholder = multiplier.is_placeholder;
 
             // Sum placeholder
             AutoDiffNode* oper_node = new Mult(mult_ptr1, mult_ptr2);

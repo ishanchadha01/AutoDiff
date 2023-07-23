@@ -30,16 +30,15 @@ void AutoDiffGraph::_dfs(AutoDiffNode* node) {
 void AutoDiffGraph::forward_pass() {
     for (auto& node_id : this->top_sort) {
         if (node_id.rfind("operator", 0) == 0) {
+            AutoDiffNode* node = nodes[node_id];
             Operator* oper = dynamic_cast<Operator*>(nodes[node_id]);
             if (dynamic_cast<Add*>(oper) != nullptr) oper = dynamic_cast<Add*>(oper);
             else if (dynamic_cast<Mult*>(oper) != nullptr) oper = dynamic_cast<Mult*>(oper);
             else if (dynamic_cast<Pow*>(oper) != nullptr) oper = dynamic_cast<Pow*>(oper);
             else if (dynamic_cast<Divide*>(oper) != nullptr) oper = dynamic_cast<Divide*>(oper);
-            std::cout << "oper inputs" << std::get<double>(oper->inputs[0]->val) << std::get<double>(oper->inputs[1]->val) << std::endl;
-            oper->val = oper->forward();
+            nodes[node_id]->val = oper->forward();
         } else if (node_id.rfind("variable", 0) == 0 && dynamic_cast<Variable*>(nodes[node_id])->is_placeholder) {
-            Variable* node = dynamic_cast<Variable*>(nodes[node_id]);
-            node->val = node->inputs[0]->val;
+            nodes[node_id]->val = nodes[node_id]->inputs[0]->val;
         }
     }
 }
