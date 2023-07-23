@@ -3,6 +3,8 @@
 #include "auto_diff_node.hpp"
 #include "add.hpp"
 #include "mult.hpp"
+#include "divide.hpp"
+#include "pow.hpp"
 
 
 class Variable : public AutoDiffNode {
@@ -48,7 +50,7 @@ class Variable : public AutoDiffNode {
             mult_ptr2->val = multiplier.val;
             mult_ptr2->is_placeholder = multiplier.is_placeholder;
 
-            // Sum placeholder
+            // Product placeholder
             AutoDiffNode* oper_node = new Mult(mult_ptr1, mult_ptr2);
             AutoDiffNode* product_placeholder = new Variable();
             product_placeholder->inputs = {oper_node};
@@ -59,16 +61,52 @@ class Variable : public AutoDiffNode {
         };
 
         Variable operator/(Variable divisor) {
-            AutoDiffNode* div_ptr = &divisor;
-            AutoDiffNode* node = AutoDiffNode::operator/(div_ptr);
-            Variable* quotient_ptr = dynamic_cast<Variable*>(node);
+            // Create AutoDiffNode* for dividend
+            AutoDiffNode* dividend_ptr = this;
+            dividend_ptr->inputs = this->inputs;
+            dividend_ptr->id = this->id;
+            dividend_ptr->val = this->val;
+            dividend_ptr->is_placeholder = this->is_placeholder;
+
+            // Create AutoDiffNode* for divisor
+            AutoDiffNode* divisor_ptr = new Variable();
+            divisor_ptr->inputs = divisor.inputs;
+            divisor_ptr->id = divisor.id;
+            divisor_ptr->val = divisor.val;
+            divisor_ptr->is_placeholder = divisor.is_placeholder;
+
+            // Quotient placeholder
+            AutoDiffNode* oper_node = new Divide(dividend_ptr, divisor_ptr);
+            AutoDiffNode* quotient_placeholder = new Variable();
+            quotient_placeholder->inputs = {oper_node};
+            quotient_placeholder->is_placeholder = true;
+
+            Variable* quotient_ptr = dynamic_cast<Variable*>(quotient_placeholder);
             return *quotient_ptr;
         };
         Variable power(Variable exponent) {
-            AutoDiffNode* exp_ptr = &exponent;
-            AutoDiffNode* node = AutoDiffNode::power(exp_ptr);
-            Variable* exp_out = dynamic_cast<Variable*>(node);
-            return *exp_out;
+            // Create AutoDiffNode* for base
+            AutoDiffNode* base_ptr = this;
+            base_ptr->inputs = this->inputs;
+            base_ptr->id = this->id;
+            base_ptr->val = this->val;
+            base_ptr->is_placeholder = this->is_placeholder;
+
+            // Create AutoDiffNode* for exponent
+            AutoDiffNode* exponent_ptr = new Variable();
+            exponent_ptr->inputs = exponent.inputs;
+            exponent_ptr->id = exponent.id;
+            exponent_ptr->val = exponent.val;
+            exponent_ptr->is_placeholder = exponent.is_placeholder;
+
+            // Output placeholder
+            AutoDiffNode* oper_node = new Pow(base_ptr, exponent_ptr);
+            AutoDiffNode* output_placeholder = new Variable();
+            output_placeholder->inputs = {oper_node};
+            output_placeholder->is_placeholder = true;
+
+            Variable* output_ptr = dynamic_cast<Variable*>(output_placeholder);
+            return *output_ptr;
         };
 
         data_type val;

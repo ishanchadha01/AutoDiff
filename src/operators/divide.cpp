@@ -12,6 +12,7 @@ data_type Divide::forward() {
     try {
         double a = std::get<double>(input1);
         double b = std::get<double>(input2);
+        // std::cout << a/b << std::endl;
         return a/b;
     } catch (std::exception& e) {
         std::cout << "Division only supports double right now" << std::endl;
