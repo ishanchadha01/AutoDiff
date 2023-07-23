@@ -35,6 +35,7 @@ void AutoDiffGraph::forward_pass() {
             else if (dynamic_cast<Mult*>(oper) != nullptr) oper = dynamic_cast<Mult*>(oper);
             else if (dynamic_cast<Pow*>(oper) != nullptr) oper = dynamic_cast<Pow*>(oper);
             else if (dynamic_cast<Divide*>(oper) != nullptr) oper = dynamic_cast<Divide*>(oper);
+            std::cout << "oper inputs" << std::get<double>(oper->inputs[0]->val) << std::get<double>(oper->inputs[1]->val) << std::endl;
             oper->val = oper->forward();
         } else if (node_id.rfind("variable", 0) == 0 && dynamic_cast<Variable*>(nodes[node_id])->is_placeholder) {
             Variable* node = dynamic_cast<Variable*>(nodes[node_id]);

@@ -20,9 +20,7 @@ enum NodeType {
 class AutoDiffNode {
     public:
 		AutoDiffNode();
-
-        virtual AutoDiffNode* operator+(AutoDiffNode* addend);
-        virtual AutoDiffNode* operator*(AutoDiffNode* multiplier);
+        
         virtual AutoDiffNode* operator/(AutoDiffNode* divisor);
         virtual AutoDiffNode* power(AutoDiffNode* exponent);
         NodeType virtual get_type() = 0;

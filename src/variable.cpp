@@ -9,7 +9,6 @@ Variable::Variable() {
 
 Variable::Variable(data_type aVal) {
     this->val = aVal;
-    std::cout << std::get<double>(aVal) << std::endl;
 };
 
 

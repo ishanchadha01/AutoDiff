@@ -1,6 +1,8 @@
 #pragma once
 
 #include "auto_diff_node.hpp"
+#include "add.hpp"
+#include "mult.hpp"
 
 
 class Variable : public AutoDiffNode {
@@ -10,25 +12,51 @@ class Variable : public AutoDiffNode {
 
         NodeType get_type();
         Variable operator+(const Variable& addend) {
-            Variable* v = new Variable();
-            v->inputs = addend.inputs;
-            v->id = addend.id;
-            v->val = addend.val;
-            AutoDiffNode* addend_ptr = v;
-            AutoDiffNode* node = AutoDiffNode::operator+(addend_ptr);
-            Variable* sum_ptr = dynamic_cast<Variable*>(node);
+            // Create AutoDiffNode* for addend 1
+            AutoDiffNode* addend_ptr1 = this;
+            addend_ptr1->inputs = this->inputs;
+            addend_ptr1->id = this->id;
+            addend_ptr1->val = this->val;
+
+            // Create AutoDiffNode* for addend 2
+            AutoDiffNode* addend_ptr2 = new Variable();
+            addend_ptr2->inputs = addend.inputs;
+            addend_ptr2->id = addend.id;
+            addend_ptr2->val = addend.val;
+
+            // Sum placeholder
+            AutoDiffNode* oper_node = new Add(addend_ptr1, addend_ptr2);
+            AutoDiffNode* sum_placeholder = new Variable();
+            sum_placeholder->inputs = {oper_node};
+            sum_placeholder->is_placeholder = true;
+
+            Variable* sum_ptr = dynamic_cast<Variable*>(sum_placeholder);
             return *sum_ptr;
         };
+
         Variable operator*(const Variable& multiplier) {
-            Variable* v = new Variable();
-            v->inputs = multiplier.inputs;
-            v->id = multiplier.id;
-            v->val = multiplier.val;
-            AutoDiffNode* mult_ptr = v;
-            AutoDiffNode* node = AutoDiffNode::operator*(mult_ptr);
-            Variable* product_ptr = dynamic_cast<Variable*>(node);
+            // Create AutoDiffNode* for multiplier 1
+            AutoDiffNode* mult_ptr1 = this;
+            mult_ptr1->inputs = this->inputs;
+            mult_ptr1->id = this->id;
+            mult_ptr1->val = this->val;
+
+            // Create AutoDiffNode* for multiplier 2
+            AutoDiffNode* mult_ptr2 = new Variable();
+            mult_ptr2->inputs = multiplier.inputs;
+            mult_ptr2->id = multiplier.id;
+            mult_ptr2->val = multiplier.val;
+
+            // Sum placeholder
+            AutoDiffNode* oper_node = new Mult(mult_ptr1, mult_ptr2);
+            AutoDiffNode* product_placeholder = new Variable();
+            product_placeholder->inputs = {oper_node};
+            product_placeholder->is_placeholder = true;
+
+            Variable* product_ptr = dynamic_cast<Variable*>(product_placeholder);
             return *product_ptr;
         };
+
         Variable operator/(Variable divisor) {
             AutoDiffNode* div_ptr = &divisor;
             AutoDiffNode* node = AutoDiffNode::operator/(div_ptr);

@@ -11,24 +11,6 @@ AutoDiffNode::AutoDiffNode() {
 }
 
 
-AutoDiffNode* AutoDiffNode::operator+(AutoDiffNode* addend) {
-    AutoDiffNode* oper_node = new Add(this, addend);
-    AutoDiffNode* placeholder_node = new Variable();
-    placeholder_node->inputs = {oper_node};
-    placeholder_node->is_placeholder = true;
-    return placeholder_node;
-}
-
-
-AutoDiffNode* AutoDiffNode::operator*(AutoDiffNode* multiplier) {
-    AutoDiffNode* oper_node = new Mult(this, multiplier);
-    AutoDiffNode* placeholder_node = new Variable();
-    placeholder_node->inputs = {oper_node};
-    placeholder_node->is_placeholder = true;
-    return placeholder_node;
-}
-
-
 AutoDiffNode* AutoDiffNode::operator/(AutoDiffNode* divisor) {
     AutoDiffNode* oper_node = new Divide(this, divisor);
     AutoDiffNode* placeholder_node = new Variable();
