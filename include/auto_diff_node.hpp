@@ -21,8 +21,7 @@ class AutoDiffNode {
     public:
 		AutoDiffNode();
         
-        virtual AutoDiffNode* operator/(AutoDiffNode* divisor);
-        virtual AutoDiffNode* power(AutoDiffNode* exponent);
+        AutoDiffNode(data_type aVal) : val(aVal) {};
         NodeType virtual get_type() = 0;
 
         NodeType type;

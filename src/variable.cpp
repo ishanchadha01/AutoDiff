@@ -7,9 +7,10 @@ Variable::Variable() {
 };
 
 
-Variable::Variable(data_type aVal) {
-    this->val = aVal;
-};
+// Variable::Variable(data_type aVal) {
+//     this->val = aVal;
+//     this->is_placeholder = false;
+// };
 
 
 NodeType Variable::get_type() {
