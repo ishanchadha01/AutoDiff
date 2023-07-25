@@ -13,21 +13,21 @@ class Variable : public AutoDiffNode {
         Variable(data_type aVal);
 
         NodeType get_type();
-        Variable operator+(const Variable& addend) {
+        Variable& operator+(Variable& addend) {
             // Create AutoDiffNode* for addend 1
-            AutoDiffNode* addend_ptr1 = this;
-            addend_ptr1->inputs = this->inputs;
-            addend_ptr1->id = this->id;
-            addend_ptr1->val = this->val;
+            // AutoDiffNode* addend_ptr1 = this;
+            // addend_ptr1->inputs = this->inputs;
+            // addend_ptr1->id = this->id;
+            // addend_ptr1->val = this->val;
 
-            // Create AutoDiffNode* for addend 2
-            AutoDiffNode* addend_ptr2 = new Variable();
-            addend_ptr2->inputs = addend.inputs;
-            addend_ptr2->id = addend.id;
-            addend_ptr2->val = addend.val;
+            // // Create AutoDiffNode* for addend 2
+            // AutoDiffNode* addend_ptr2 = new Variable();
+            // addend_ptr2->inputs = addend.inputs;
+            // addend_ptr2->id = addend.id;
+            // addend_ptr2->val = addend.val;
 
             // Sum placeholder
-            AutoDiffNode* oper_node = new Add(addend_ptr1, addend_ptr2);
+            AutoDiffNode* oper_node = new Add(this, &addend);
             AutoDiffNode* sum_placeholder = new Variable();
             sum_placeholder->inputs = {oper_node};
             sum_placeholder->is_placeholder = true;
