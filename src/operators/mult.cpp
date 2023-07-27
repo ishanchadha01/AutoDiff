@@ -32,30 +32,31 @@ data_type Mult::forward() {
 };
 
 
-std::pair<data_type, data_type> Mult::backward(double d_out) {
+std::vector<data_type> Mult::backward(data_type d) {
 
     // Check type of variant
-    std::pair<data_type, data_type> outputs;
+    double d_out = std::get<double>(d);
+    std::vector<data_type> outputs;
     data_type input1 = this->inputs[0]->val;
     data_type input2 = this->inputs[1]->val;
     std::visit(
         overload{
-             [d_out, &outputs](double& a, double& b) {
-                outputs.first = d_out * b;
-                outputs.second = d_out * a;
+            [d_out, &outputs](double& a, double& b) {
+                outputs[0] = d_out * b;
+                outputs[1] = d_out * a;
             },
             [d_out, &outputs](Eigen::MatrixXd& a, Eigen::MatrixXd& b) {
-                outputs.first = d_out * b.transpose();
-                outputs.second = a.transpose() * d_out;
+                outputs[0] = d_out * b.transpose();
+                outputs[1] = a.transpose() * d_out;
             },
             [d_out, &outputs](Eigen::MatrixXd& a, double& b) {
-                outputs.first = 0.;
-                outputs.second = 0.;
+                outputs[0] = 0.;
+                outputs[1] = 0.;
                 std::cout << "Error, Mult types don't match!" << std::endl;
             },
             [d_out, &outputs](double& a, Eigen::MatrixXd& b) {
-                outputs.first = 0.;
-                outputs.second = 0.;
+                outputs[0] = 0.;
+                outputs[1] = 0.;
                 std::cout << "Error, Mult types don't match!" << std::endl;
             }
         },

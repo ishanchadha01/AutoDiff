@@ -15,21 +15,42 @@ data_type Divide::forward() {
         // std::cout << a/b << std::endl;
         return a/b;
     } catch (std::exception& e) {
-        std::cout << "Division only supports double right now" << std::endl;
+        std::cout << "Error, ivision only supports double right now!" << std::endl;
     }
 	return 0.;
 };
 
 
-std::pair<data_type, data_type> Divide::backward(double d_out) {
+std::vector<data_type> Divide::backward(data_type d) {
+
+    // Check type of variant
+    double d_out = std::get<double>(d);
+    std::vector<data_type> outputs;
     data_type input1 = this->inputs[0]->val;
     data_type input2 = this->inputs[1]->val;
-    try {
-        double a = std::get<double>(input1);
-        double b = std::get<double>(input2);
-	    return {d_out / b, -1 * d_out * std::pow(b, 2) * a};
-    } catch (std::exception& e) {
-        std::cout << "Division only supports double right now" << std::endl;
-    }
-    return {0., 0.};
+    std::visit(
+        overload{
+            [d_out, &outputs](double& a, double& b) {
+                outputs[0] = d_out / b;
+                outputs[1] = -1.0 * d_out * std::pow(b, 2) * a;
+            },
+            [d_out, &outputs](Eigen::MatrixXd& a, Eigen::MatrixXd& b) {
+                outputs[0] = 0.;
+                outputs[1] = 0.;
+                std::cout << "Error, division only supports double right now!" << std::endl;
+            },
+            [d_out, &outputs](Eigen::MatrixXd& a, double& b) {
+                outputs[0] = 0.;
+                outputs[1] = 0.;
+                std::cout << "Error, division only supports double right now!" << std::endl;
+            },
+            [d_out, &outputs](double& a, Eigen::MatrixXd& b) {
+                outputs[0] = 0.;
+                outputs[1] = 0.;
+                std::cout << "Error, division only supports double right now!" << std::endl;
+            }
+        },
+        input1, input2
+    );
+    return outputs;
 }

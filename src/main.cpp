@@ -14,5 +14,6 @@ int main() {
     for (auto& node_id : g.top_sort) {
         std::cout << node_id << " " << std::get<double>(g.nodes[node_id]->val) << std::endl;
     }
+    g.backward_pass();
 	return 0;
 }

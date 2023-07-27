@@ -13,6 +13,6 @@ data_type Add::forward() {
 };
 
 
-std::pair<data_type, data_type> Add::backward(double d_out) {
+std::vector<data_type> Add::backward(data_type d_out) {
 	return {d_out, d_out};
 }
