@@ -8,7 +8,7 @@ int main() {
     Variable x = Variable(0.7);
     Variable y = Variable(1.5);
     Variable z = Variable(2.0);
-    Variable out = x+y+z+z+z+x;
+    Variable out = (y.power(x+y*z)*w)/v;
     AutoDiffGraph g = AutoDiffGraph(out);
     g.forward_pass();
     for (auto& node_id : g.top_sort) {
