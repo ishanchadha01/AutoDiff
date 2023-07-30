@@ -1,4 +1,5 @@
 #include "divide.hpp"
+#include <iostream>
 
 
 Divide::Divide(AutoDiffNode* node1, AutoDiffNode* node2) {
@@ -12,7 +13,6 @@ data_type Divide::forward() {
     try {
         double a = std::get<double>(input1);
         double b = std::get<double>(input2);
-        // std::cout << a/b << std::endl;
         return a/b;
     } catch (std::exception& e) {
         std::cout << "Error, ivision only supports double right now!" << std::endl;
@@ -31,22 +31,19 @@ std::vector<data_type> Divide::backward(data_type d) {
     std::visit(
         overload{
             [d_out, &outputs](double& a, double& b) {
-                outputs[0] = d_out / b;
-                outputs[1] = -1.0 * d_out * std::pow(b, 2) * a;
+                outputs.push_back(d_out/b);
+                outputs.push_back(-1.0 * d_out * std::pow(b, 2) * a);
             },
             [d_out, &outputs](Eigen::MatrixXd& a, Eigen::MatrixXd& b) {
-                outputs[0] = 0.;
-                outputs[1] = 0.;
+                outputs = {0., 0.};
                 std::cout << "Error, division only supports double right now!" << std::endl;
             },
             [d_out, &outputs](Eigen::MatrixXd& a, double& b) {
-                outputs[0] = 0.;
-                outputs[1] = 0.;
+                outputs = {0., 0.};
                 std::cout << "Error, division only supports double right now!" << std::endl;
             },
             [d_out, &outputs](double& a, Eigen::MatrixXd& b) {
-                outputs[0] = 0.;
-                outputs[1] = 0.;
+                outputs = {0., 0.};
                 std::cout << "Error, division only supports double right now!" << std::endl;
             }
         },

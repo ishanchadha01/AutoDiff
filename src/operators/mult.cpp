@@ -42,21 +42,19 @@ std::vector<data_type> Mult::backward(data_type d) {
     std::visit(
         overload{
             [d_out, &outputs](double& a, double& b) {
-                outputs[0] = d_out * b;
-                outputs[1] = d_out * a;
+                outputs.push_back(d_out * b);
+                outputs.push_back(d_out * a);
             },
             [d_out, &outputs](Eigen::MatrixXd& a, Eigen::MatrixXd& b) {
-                outputs[0] = d_out * b.transpose();
-                outputs[1] = a.transpose() * d_out;
+                outputs.push_back(d_out * b.transpose());
+                outputs.push_back(a.transpose() * d_out);
             },
             [d_out, &outputs](Eigen::MatrixXd& a, double& b) {
-                outputs[0] = 0.;
-                outputs[1] = 0.;
+                outputs = {0., 0.};
                 std::cout << "Error, Mult types don't match!" << std::endl;
             },
             [d_out, &outputs](double& a, Eigen::MatrixXd& b) {
-                outputs[0] = 0.;
-                outputs[1] = 0.;
+                outputs = {0., 0.};
                 std::cout << "Error, Mult types don't match!" << std::endl;
             }
         },

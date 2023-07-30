@@ -11,7 +11,7 @@ data_type Pow::forward() {
     try {
         double a = std::get<double>(input1);
         double b = std::get<double>(input2);
-	    return std::pow(a, b);
+	      return std::pow(a, b);
     } catch (std::exception& e) {
         std::cout << "Power only supports double right now" << std::endl;
     }
@@ -29,22 +29,19 @@ std::vector<data_type> Pow::backward(data_type d) {
     std::visit(
         overload{
             [d_out, &outputs](double& a, double& b) {
-                outputs[0] = d_out * b * std::pow(a, b-1);
-                outputs[1] = d_out * std::pow(a, b) * std::log(a);
+                outputs.push_back(d_out * b * std::pow(a, b-1));
+                outputs.push_back(d_out * std::pow(a, b) * std::log(a));
             },
             [d_out, &outputs](Eigen::MatrixXd& a, Eigen::MatrixXd& b) {
-                outputs[0] = 0.;
-                outputs[1] = 0.;
+                outputs = {0., 0.};
                 std::cout << "Error, Pow only supports doubles right now!" << std::endl;
             },
             [d_out, &outputs](Eigen::MatrixXd& a, double& b) {
-                outputs[0] = 0.;
-                outputs[1] = 0.;
+                outputs = {0., 0.};
                 std::cout << "Error, Pow only supports doubles right now!" << std::endl;
             },
             [d_out, &outputs](double& a, Eigen::MatrixXd& b) {
-                outputs[0] = 0.;
-                outputs[1] = 0.;
+                outputs = {0., 0.};
                 std::cout << "Error, Mult types don't match!" << std::endl;
             }
         },

@@ -12,15 +12,15 @@
 class AutoDiffGraph {
   public:
 		AutoDiffGraph(Variable& head);
-        void forward_pass();
-        void backward_pass();
+    void forward_pass();
+    void backward_pass();
 
 		std::unordered_map< std::string, AutoDiffNode* > nodes;
         std::vector<std::string> top_sort;
 		// std::unordered_map< std::string, Operator* > operators;
 		int variable_count = 0;
 		int operator_count = 0;
-        AutoDiffNode* head;
+    AutoDiffNode* head;
 
     private:
         void _dfs(AutoDiffNode* node);

@@ -10,9 +10,8 @@ class Operator : public AutoDiffNode {
 
 		virtual data_type forward() = 0;
 		virtual std::vector<data_type> backward(data_type d_out) = 0;
-        NodeType get_type();
+    NodeType get_type();
 
-        // OperatorType type = ADD;
 		std::vector<data_type> input_vals;
-        std::vector<data_type> gradients;
+    std::vector<data_type> gradients;
 };
