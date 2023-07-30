@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 #include <variant>
-#include <Eigen/Dense>
+#include <eigen3/Eigen/Dense>
 #include <iostream>
 
 
@@ -29,5 +29,5 @@ class AutoDiffNode {
         data_type gradient;
         std::string id;
         std::vector<AutoDiffNode*> inputs; // children of this node in the computation tree
-        bool is_placeholder;
+        bool is_placeholder = false;
 };
