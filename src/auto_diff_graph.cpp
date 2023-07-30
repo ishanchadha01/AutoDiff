@@ -45,7 +45,7 @@ void AutoDiffGraph::forward_pass() {
 
 
 void AutoDiffGraph::backward_pass() {
-    std::unordered_set<AutoDiffNode*> visited_inputs;
+    std::unordered_set<std::string> visited_inputs;
     std::vector<std::string>::iterator reverse_it;
     std::string out_node_id = this->top_sort[this->top_sort.size()-1];
     nodes[out_node_id]->gradient = 1.0; // gradient of output is 1
@@ -60,9 +60,9 @@ void AutoDiffGraph::backward_pass() {
             oper->gradients = oper->backward(oper->gradient);
             for (int idx = 0; idx < oper->gradients.size(); idx++) {
                 // input gradient equals corresponding gradient output from operator
-                if (visited_inputs.find(oper->inputs[idx]) != visited_inputs.end()) {
+                if (visited_inputs.find(oper->inputs[idx]->id) != visited_inputs.end()) {
                     oper->inputs[idx]->gradient = oper->gradients[idx];
-                    visited_inputs.insert(oper->inputs[idx]);
+                    visited_inputs.insert(oper->inputs[idx]->id);
                 } else {
                     data_type input1 = oper->inputs[idx]->gradient;
                     data_type input2 = oper->gradients[idx];
